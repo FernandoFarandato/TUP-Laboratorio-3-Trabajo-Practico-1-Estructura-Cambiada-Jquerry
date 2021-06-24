@@ -3,12 +3,14 @@
 const section = window.location.href.split("/");
 console.log(`You are in  ${section[section.length - 1]}`);
 
-const offersContainer = document.querySelector("#offers--container");
+$(document).ready(function(){
+  fetchProducts();
+});
 
 async function fetchProducts() {
-  fetch("./../data/product-data.json")
-    .then((response) => response.json())
-    .then((data) => renderProducts(data));
+fetch("./../data/product-data.json")
+  .then((response) => response.json())
+  .then((data) => renderProducts(data));
 }
 
 const renderProducts = function (products) {
@@ -61,7 +63,7 @@ const renderProducts = function (products) {
     
     `;
 
-  offersContainer.insertAdjacentHTML("beforeend", html);
+    $("#offers--container").append( html);
 };
 
 fetchProducts();

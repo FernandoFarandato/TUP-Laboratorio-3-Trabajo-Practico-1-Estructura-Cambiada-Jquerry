@@ -3,42 +3,44 @@
 const section = window.location.href.split("/");
 console.log(`You are in  ${section[section.length - 1]}`);
 
-const formContact = document.querySelector("#formContact");
-const inputEmail = document.querySelector("#inputEmail");
-const inputMessagge = document.querySelector("#inputMessagge");
-const buttonSubmitForm = document.querySelector("#buttonSubmitForm");
+$(document).ready(function(){
+  clearInputs();
+
+  $("#formContact").submit(function(e){
+    e.preventDefault()
+    submitForm();
+  });
+
+  $("#formContact").keydown(function(e){
+    buttonAvailable();
+  });
+
+  // ! BUG-FIX Close Modal
+  // El modal no se cierra con su boton por defecto por lo que lo hago manualmente
+  $("#closeModal").click(function(e){
+    $("#submitModal").hide();
+  });
+});
 
 const validateData = function () {
-  return inputEmail.value.trim() && inputMessagge.value.trim() ? true : false;
+  return $("#inputEmail").val().trim() && $("#inputMessagge").val().trim() ? true : false;
 };
 
 const buttonAvailable = function () {
   validateData()
-    ? buttonSubmitForm.classList.remove("disabled")
-    : buttonSubmitForm.classList.add("disabled");
+    ? $("#buttonSubmitForm").removeClass( "disabled" ) 
+    : $("#buttonSubmitForm").addClass( "disabled" ) 
 };
 
 const submitForm = function (e) {
-  e.preventDefault();
   if (validateData()) {
-    submitModal.style.display = "block";
-    buttonSubmitForm.classList.add("disabled");
+    $("#submitModal").show();
+    $("#buttonSubmitForm").addClass( "disabled" ) 
     clearInputs();
   }
 };
 
 const clearInputs = function () {
-  inputEmail.value = "";
-  inputMessagge.value = "";
+  $("#inputEmail").val( "" ) 
+  $("#inputMessagge").val( "" ) 
 };
-
-formContact.addEventListener("keydown", buttonAvailable);
-formContact.addEventListener("submit", submitForm);
-
-// ! BUG-FIX Close Modal
-// El modal no se cierra con su boton por defecto por lo que lo hago manualmente
-document.querySelector("#closeModal").addEventListener("click", () => {
-  submitModal.style.display = "none";
-});
-
-clearInputs();

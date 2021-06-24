@@ -5,6 +5,13 @@ console.log(`You are in  ${section[section.length - 1]}`);
 
 const productContainer = document.querySelector("#product--container");
 
+
+$(document).ready(function(){
+    fetchProducts();
+});
+
+
+
 async function fetchProducts() {
   fetch("./../data/product-data.json")
     .then((response) => response.json())
@@ -16,7 +23,7 @@ const renderProducts = function (products) {
     <div class="row">
     <!-- Card -->
     `;
-  products.forEach((element) => {
+  $(products).each((index, element) => {
     html += `
   
     <div class="my-4 col-12 pt-2 col-md-6 col-lg-4 tarjeta">
@@ -59,7 +66,7 @@ const renderProducts = function (products) {
     
     `;
 
-  productContainer.insertAdjacentHTML("beforeend", html);
+  $("#product--container").append( html);
 };
 
-fetchProducts();
+
